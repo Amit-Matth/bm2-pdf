@@ -1,13 +1,19 @@
 import { NextResponse } from "next/server";
 import getMongoClient from "@/lib/mongodb";
 import { getProduct } from "@/lib/catalog";
+import { getSession } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json({ error: "Authentication required to start checkout." }, { status: 401 });
+    }
+
     const body = await request.json();
     const requestedProductKey = typeof body.productKey === "string" ? body.productKey : "";
     const productKey = requestedProductKey === "math" || requestedProductKey === "english" ? "bundle" : requestedProductKey;
-    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const email = session.email; // Use session email
     const product = getProduct(productKey);
     if (!product || !email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: "Choose a product and enter a valid email." }, { status: 400 });

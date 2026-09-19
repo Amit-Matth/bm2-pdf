@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import getMongoClient from "@/lib/mongodb";
-import { verifyReviewToken } from "@/lib/review-token";
+import { verifyReviewToken, createReviewToken } from "@/lib/review-token";
+import { getSession } from "@/lib/auth";
 
 const avatarPattern = /^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/;
 
@@ -17,18 +18,36 @@ export async function GET(request: Request) {
     const databaseName = process.env.MONGODB_DB_NAME;
     if (!databaseName) throw new Error("Missing MONGODB_DB_NAME environment variable");
     const client = await getMongoClient();
+    const database = client.db(databaseName);
+
+    const session = await getSession();
     const orderId = url.searchParams.get("orderId");
     const token = url.searchParams.get("reviewToken");
-    const email = url.searchParams.get("email")?.trim().toLowerCase();
-    if (orderId && token && email && verifyReviewToken(token, orderId)) {
-      const database = client.db(databaseName);
-      const order = await database.collection("orders").findOne({ razorpayOrderId: orderId, email, status: "paid" });
-      if (!order || !["math", "english", "bundle"].includes(order.productKey) || !["math", "english"].includes(productKey)) return NextResponse.json({ error: "This purchase could not be verified." }, { status: 403 });
-      const review = await database.collection("reviews").findOne({ orderId, productKey });
-      return review ? NextResponse.json({ review: { name: review.name, rating: review.rating, comment: review.comment, avatar: review.avatar || "", status: review.status } }) : NextResponse.json({ review: null });
+    const email = url.searchParams.get("email")?.trim().toLowerCase() || session?.email;
+
+    // Try to find a review if they provide proof of purchase (token or session)
+    if (email && ( (orderId && token && verifyReviewToken(token, orderId)) || session )) {
+      const query = orderId ? { razorpayOrderId: orderId, email, status: "paid" } : { email, status: "paid", productKey: { $in: ["math", "english", "bundle"] } };
+      const order = await database.collection("orders").findOne(query);
+
+      if (order) {
+        const review = await database.collection("reviews").findOne({ orderId: order.razorpayOrderId, productKey });
+        const reviews = await database.collection("reviews").find({ productKey, status: "approved" }).sort({ createdAt: -1 }).limit(20).toArray();
+        return NextResponse.json({
+          reviews: reviews.map(({ _id, name, rating, comment, avatar, createdAt }) => ({ id: _id.toString(), name, rating, comment, avatar: avatar || "", createdAt })),
+          review: review ? { name: review.name, rating: review.rating, comment: review.comment, avatar: review.avatar || "", status: review.status } : null,
+          canReview: true,
+          orderId: order.razorpayOrderId,
+          reviewToken: createReviewToken(order.razorpayOrderId)
+        });
+      }
     }
+
     const reviews = await client.db(databaseName).collection("reviews").find({ productKey, status: "approved" }).sort({ createdAt: -1 }).limit(20).toArray();
-    return NextResponse.json({ reviews: reviews.map(({ _id, name, rating, comment, avatar, createdAt }) => ({ id: _id.toString(), name, rating, comment, avatar: avatar || "", createdAt })) });
+    return NextResponse.json({
+      reviews: reviews.map(({ _id, name, rating, comment, avatar, createdAt }) => ({ id: _id.toString(), name, rating, comment, avatar: avatar || "", createdAt })),
+      canReview: false
+    });
   } catch (error) {
     console.error("Reviews lookup failed", error);
     return NextResponse.json({ error: "Reviews are temporarily unavailable." }, { status: 500 });

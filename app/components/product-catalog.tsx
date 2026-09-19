@@ -1,10 +1,11 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import PdfViewer from "./pdf-viewer";
 import RevealBlock from "./reveal-block";
+import { useUser } from "../contexts/UserContext";
 
 type Product = {
   key: string;
@@ -23,22 +24,42 @@ type ProductCatalogProps = {
   products: Product[];
 };
 
-export default function ProductCatalog({ products }: ProductCatalogProps) {
+function ProductCatalogContent({ products }: ProductCatalogProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user } = useUser();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [sampleViewer, setSampleViewer] = useState<Product | null>(null);
   const [savedAccess, setSavedAccess] = useState<Record<string, boolean>>({});
+  const [hasReview, setHasReview] = useState<Record<string, boolean>>({});
+  const [pendingReview, setPendingReview] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const access: Record<string, boolean> = {};
     products.forEach((p) => {
       const stored = window.localStorage.getItem(`pdfduniya-review-access-${p.key}`);
-      if (stored) access[p.key] = true;
+      const isPurchased = stored || user?.purchasedProducts?.includes(p.key) || user?.purchasedProducts?.includes("bundle");
+      if (isPurchased) access[p.key] = true;
     });
     setSavedAccess(access);
-  }, [products]);
+    void Promise.all(products.map(async (product) => {
+      const response = await fetch(`/api/reviews?productKey=${encodeURIComponent(product.key)}`);
+      if (!response.ok) return [product.key, false] as const;
+      const data = await response.json() as { review?: { status?: string }; canReview?: boolean };
+      setPendingReview((current) => ({ ...current, [product.key]: data.review?.status === "pending" }));
+      if (data.canReview) {
+        setSavedAccess((current) => ({ ...current, [product.key]: true }));
+      } else if (!access[product.key]) {
+        setSavedAccess((current) => {
+          const next = { ...current };
+          delete next[product.key];
+          return next;
+        });
+      }
+      return [product.key, Boolean(data.review)] as const;
+    })).then((entries) => setHasReview(Object.fromEntries(entries)));
+  }, [products, user]);
 
   return (
     <>
@@ -52,15 +73,44 @@ export default function ProductCatalog({ products }: ProductCatalogProps) {
               <p className="catalog-description">{product.description}</p>
               <ul>{product.features.map((feature) => <li key={feature}><span aria-hidden="true">&#10003;</span>{feature}</li>)}</ul>
               <div className="catalog-card-bottom">
-                <div>{product.free ? <strong>FREE</strong> : savedAccess[product.key] ? <strong className="catalog-purchased">Purchased</strong> : <><strong>{product.price}</strong><del>{product.originalPrice}</del></>}</div>
-                <button type="button" className="catalog-button" onClick={() => {
-                  if (product.free) {
-                    setSelectedProduct(product);
-                  } else {
-                    const ref = searchParams.get("ref") || "";
-                    router.push(`/buy?p=${product.key}${ref ? `&ref=${ref}` : ""}`);
-                  }
-                }}>{product.free ? "View sample" : "Buy now"}<span aria-hidden="true">&#8594;</span></button>
+                <div>
+                  {product.free ? (
+                    <strong>FREE</strong>
+                  ) : savedAccess[product.key] ? (
+                    <strong className="catalog-purchased" style={{ fontSize: '0.75rem', color: 'var(--muted)', letterSpacing: '0.05em' }}>
+                      ALREADY PURCHASED
+                    </strong>
+                  ) : (
+                    <>
+                      <strong>{product.price}</strong>
+                      <del>{product.originalPrice}</del>
+                    </>
+                  )}
+                </div>
+                {savedAccess[product.key] && !product.free ? (
+                  <button
+                    type="button"
+                    className="catalog-button"
+                    disabled={pendingReview[product.key]}
+                    onClick={() => {
+                      if (pendingReview[product.key]) return;
+                      const el = document.querySelector(".reviews-section");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                      window.dispatchEvent(new CustomEvent("review:open", { detail: { productKey: product.key } }));
+                    }}
+                  >
+                    {pendingReview[product.key] ? "Review pending" : hasReview[product.key] ? "Update review" : "Rate experience"} {!pendingReview[product.key] && <span aria-hidden="true">&#8594;</span>}
+                  </button>
+                ) : !savedAccess[product.key] && (
+                  <button type="button" className="catalog-button" onClick={() => {
+                    if (product.free) {
+                      setSelectedProduct(product);
+                    } else {
+                      const ref = searchParams.get("ref") || "";
+                      router.push(`/buy?p=${product.key}${ref ? `&ref=${ref}` : ""}`);
+                    }
+                  }}>{product.free ? "View sample" : "Buy now"}<span aria-hidden="true">&#8594;</span></button>
+                )}
               </div>
             </article>
           </RevealBlock>
@@ -84,5 +134,13 @@ export default function ProductCatalog({ products }: ProductCatalogProps) {
 
       {sampleViewer && <PdfViewer file={sampleViewer.file} title={sampleViewer.title} onClose={() => setSampleViewer(null)} />}
     </>
+  );
+}
+
+export default function ProductCatalog(props: ProductCatalogProps) {
+  return (
+    <Suspense fallback={null}>
+      <ProductCatalogContent {...props} />
+    </Suspense>
   );
 }

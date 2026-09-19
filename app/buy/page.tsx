@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import RevealBlock from "../components/reveal-block";
 import SiteHeader from "../components/site-header";
+import SiteFooter from "../components/site-footer";
+import { useUser } from "../contexts/UserContext";
 
 type RazorpayResult = { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string };
 type RazorpayInstance = { open: () => void };
@@ -37,6 +39,7 @@ const productsData: Record<string, { title: string; price: string; paise: number
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { user, setShowAuthModal, loading: authLoading } = useUser();
   const productKey = searchParams.get("p") || "bundle";
   const ref = searchParams.get("ref") || "";
 
@@ -49,12 +52,21 @@ function CheckoutContent() {
   const product = productsData[productKey] || productsData.bundle;
 
   useEffect(() => {
+    if (user) {
+      setEmail(user.email);
+    } else if (!authLoading) {
+      setShowAuthModal(true);
+    }
+  }, [user, authLoading, setShowAuthModal]);
+
+  useEffect(() => {
     if (ref) {
       setReferralCode(ref.toUpperCase());
     }
   }, [ref]);
 
   async function startCheckout() {
+    if (!user) { setShowAuthModal(true); return; }
     if (!email) { setError("Enter the email where you want your PDF delivered."); return; }
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -130,7 +142,7 @@ function CheckoutContent() {
             <div className="checkout-info">
               <RevealBlock direction="left">
                 <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
-                  <span className="catalog-badge" style={{ background: "var(--pink)", color: "#fff" }}>71% OFF</span>
+                  <span className="catalog-badge" style={{ background: "var(--pink)", color: "#fff" }}>85% OFF</span>
                   <span className="catalog-badge" style={{ background: "var(--lime)", color: "#000" }}>BUY 1 GET 1 FREE</span>
                 </div>
 
@@ -176,14 +188,31 @@ function CheckoutContent() {
                   <div className="contact-form" style={{ maxWidth: "100%", margin: "0", background: "transparent", border: "0", padding: "0" }}>
                     <div className="form-row">
                       <label htmlFor="checkout-email">Delivery Email</label>
-                      <input id="checkout-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required />
-                      <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "8px" }}>PDFs will be sent here automatically after payment.</p>
+                      <input
+                        id="checkout-email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        required
+                        readOnly={!!user}
+                        style={user ? { background: "rgba(255,255,255,0.05)", cursor: "not-allowed" } : {}}
+                      />
+                      <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "8px" }}>
+                        {user ? "Using your account email for delivery." : "PDFs will be sent here automatically after payment."}
+                      </p>
                     </div>
 
                     <div className="form-row">
                       <label htmlFor="checkout-referral" style={{ display: "flex", justifyContent: "space-between" }}>
                         Referral Code (Optional)
-                        <Link href="/referral" target="_blank" style={{ color: "var(--lime)", fontSize: "0.7rem" }}>Get code?</Link>
+                        <Link
+                          href={user?.referralCode ? `/referral/stats/${user.referralCode}` : "/referral"}
+                          target="_blank"
+                          style={{ color: "var(--lime)", fontSize: "0.7rem" }}
+                        >
+                          {user?.referralCode ? "Referral Dashboard" : "Get code?"}
+                        </Link>
                       </label>
                       <input id="checkout-referral" type="text" value={referralCode} onChange={(e) => setReferralCode(e.target.value.toUpperCase())} placeholder="Enter code" />
                     </div>
@@ -217,6 +246,7 @@ function CheckoutContent() {
           .checkout-info ul { text-align: left; }
         }
       `}</style>
+      <SiteFooter />
     </div>
   );
 }

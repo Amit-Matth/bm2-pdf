@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import getMongoClient from "@/lib/mongodb";
 import { getAdminCookieName, isAdminTokenValid } from "@/lib/admin";
-import { sendReferralApprovalEmail } from "@/lib/email";
+import { sendReferralApprovalEmail, sendReferralRemovalEmail } from "@/lib/email";
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -67,5 +67,41 @@ export async function PATCH(request: Request) {
   } catch (error) {
     console.error("Referral moderation failed", error);
     return NextResponse.json({ error: "Could not moderate referral request." }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: Request) {
+  if (!(await requireAdmin())) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+  try {
+    const { requestId } = await request.json();
+    if (typeof requestId !== "string") return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+
+    const databaseName = process.env.MONGODB_DB_NAME;
+    if (!databaseName) throw new Error("Missing MONGODB_DB_NAME environment variable");
+    const client = await getMongoClient();
+    const { ObjectId } = await import("mongodb");
+    const db = client.db(databaseName);
+
+    const referralRequest = await db.collection("referral_requests").findOne({ _id: new ObjectId(requestId) });
+    if (!referralRequest) return NextResponse.json({ error: "Request not found." }, { status: 404 });
+
+    // If it was approved, delete the referral code record
+    if (referralRequest.referralCode) {
+      await db.collection("referral_codes").deleteOne({ code: referralRequest.referralCode });
+    }
+
+    // Mark as removed
+    await db.collection("referral_requests").updateOne(
+      { _id: new ObjectId(requestId) },
+      { $set: { status: "removed", referralCode: null, removedAt: new Date() } }
+    );
+
+    // Send email
+    await sendReferralRemovalEmail({ to: referralRequest.email, name: referralRequest.name });
+
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("Referral removal failed", error);
+    return NextResponse.json({ error: "Could not remove referral." }, { status: 500 });
   }
 }

@@ -40,7 +40,9 @@ export default function PdfViewer({ file, title, onClose }: PdfViewerProps) {
             </button>
           </div>
         </header>
-        <iframe className="pdf-viewer-frame" src={pdfUrl} title={`${title} PDF preview`} />
+        <div className="pdf-viewer-container">
+          <iframe className="pdf-viewer-frame" src={pdfUrl} title={`${title} PDF preview`} />
+        </div>
       </section>
     </div>,
     document.body,

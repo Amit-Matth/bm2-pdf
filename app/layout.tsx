@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AnalyticsTracker from "./components/analytics-tracker";
+import { UserProvider } from "./contexts/UserContext";
+import AuthModal from "./components/auth-modal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,17 +21,20 @@ export const metadata: Metadata = {
   description: "Practical PDF guides to solve BasicMath in seconds and master English speaking on your fingertips.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Suspense fallback={null}>
-          <AnalyticsTracker />
-        </Suspense>
-        {children}
+        <UserProvider>
+          <Suspense fallback={null}>
+            <AnalyticsTracker />
+          </Suspense>
+          {children}
+          <AuthModal />
+        </UserProvider>
       </body>
     </html>
   );
