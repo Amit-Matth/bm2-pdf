@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 type User = {
   email: string;
@@ -12,6 +12,7 @@ type User = {
 type UserContextType = {
   user: User | null;
   loading: boolean;
+  refreshUser: () => Promise<User | null>;
   login: (email: string, username: string) => Promise<void>;
   logout: () => Promise<void>;
   showAuthModal: boolean;
@@ -25,29 +26,52 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [showAuthModal, setShowAuthModal] = useState(false);
 
+  const refreshUser = useCallback(async () => {
+    const response = await fetch("/api/auth/me", { cache: "no-store" });
+    const data: { user?: User | null; error?: string } = await response.json();
+    if (!response.ok || !("user" in data)) {
+      throw new Error(data.error || "Could not load your account.");
+    }
+    setUser(data.user ?? null);
+    return data.user ?? null;
+  }, []);
+
   useEffect(() => {
+    let isMounted = true;
+
     async function checkSession() {
       try {
-        const res = await fetch("/api/auth/me");
-        const data = await res.json();
-        setUser(data.user);
+        await refreshUser();
       } catch (err) {
         console.error("Session check failed", err);
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     }
-    checkSession();
-  }, []);
+
+    function syncSession() {
+      void refreshUser().catch((err: unknown) => {
+        console.error("Session refresh failed", err);
+      });
+    }
+
+    void checkSession();
+    window.addEventListener("focus", syncSession);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("focus", syncSession);
+    };
+  }, [refreshUser]);
 
   const login = async (email: string, username: string) => {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, username }),
+      cache: "no-store",
     });
-    const data = await res.json();
-    if (res.ok) {
+    const data: { user?: User; error?: string } = await res.json();
+    if (res.ok && data.user) {
       setUser(data.user);
       setShowAuthModal(false);
     } else {
@@ -56,12 +80,13 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
+    const response = await fetch("/api/auth/logout", { method: "POST", cache: "no-store" });
+    if (!response.ok) throw new Error("Logout failed. Please try again.");
     setUser(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, loading, login, logout, showAuthModal, setShowAuthModal }}>
+    <UserContext.Provider value={{ user, loading, refreshUser, login, logout, showAuthModal, setShowAuthModal }}>
       {children}
     </UserContext.Provider>
   );

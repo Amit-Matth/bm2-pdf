@@ -27,13 +27,13 @@ const samples: SampleItem[] = [
   {
     key: "math-sample",
     title: "Math Magic Sample",
-    eyebrow: "SpeedMath Preview · Free Edition",
-    description: "A free look at the fast calculation shortcuts, square root patterns, and mental math tricks inside our main guide.",
+    eyebrow: "Math Magic Preview · Free Edition",
+    description: "Preview the guide's multiplication and division shortcuts, percentage tricks, square and cube patterns, table methods, and number magic.",
     badge: "FREE SAMPLE",
     features: [
-      "Square & Cube Root Patterns",
-      "Rebuild Forgotten Tables",
-      "Quick 5, 25, 125 Shortcuts",
+      "Base Jump & Half-Double multiplication",
+      "Percentage, fraction & division shortcuts",
+      "Square, cube & table tricks",
       "Printable Sample Pages"
     ],
     file: "Math%20Sample.pdf",
@@ -49,10 +49,10 @@ const samples: SampleItem[] = [
     description: "A free look at the real-world speaking tools, sentence upgrades, and hesitation fixes inside our main handbook.",
     badge: "FREE SAMPLE",
     features: [
-      "Think in English Techniques",
-      "70+ Natural Speaking Phrases",
-      "Interview Confidence Tips",
-      "Printable Sample Pages"
+      "Think-in-English and fluency fixes",
+      "Natural phrases and sentence upgrades",
+      "Interview and call techniques",
+      "Printable sample pages"
     ],
     file: "English%20Sample.pdf",
     gradient: "linear-gradient(145deg, rgba(91,22,82,0.8), rgba(15,17,29,0.95))",

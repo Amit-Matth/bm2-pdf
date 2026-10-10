@@ -18,12 +18,12 @@ export default function MathPage() {
       <ProductCatalog products={[{
         key: "math",
         title: "Math Magic: Master Mental Math",
-        eyebrow: "Math Magic · 35 pages",
-        description: "A practical guide packed with 59 mental math techniques and calculation moves, organized into 9 comprehensive sections.",
+        eyebrow: "Math Magic · 65 pages",
+        description: "A practical mental-math guide covering multiplication, division, percentages, profit and loss, square and cube patterns, table building, and number tricks.",
         price: "₹29",
         originalPrice: "₹99",
         badge: "71% OFF",
-        features: ["Square & Cube Root Patterns", "Rebuild Forgotten Tables", "Quick 5, 25, 125 Shortcuts", "59 Proven Calculation Methods"],
+        features: ["Base Jump, Half-Double, 9 & 101 multiplication tricks", "Power-of-10 and repeated-halving division", "Percentage, fraction, profit & loss shortcuts", "Square, cube, table-building & number magic tricks"],
         file: "MATH%20MAGIC.pdf"
       }]} />
     </ContentPage>

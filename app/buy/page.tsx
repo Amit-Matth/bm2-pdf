@@ -18,7 +18,7 @@ const productsData: Record<string, { title: string; price: string; paise: number
     price: "₹29",
     paise: 2900,
     badge: "BOGO OFFER",
-    features: ["Fast addition & subtraction shortcuts", "Multiplication patterns made simple", "Fractions, percentages, and ratios", "Speed drills with answer keys"]
+    features: ["Base Jump, Half-Double, 9 & 101 multiplication tricks", "Power-of-10 and repeated-halving division", "Percentage, fraction, profit & loss shortcuts", "Square, cube, table-building & number magic tricks"]
   },
   english: {
     title: "Think in English & Speak Fluently",
@@ -39,7 +39,7 @@ const productsData: Record<string, { title: string; price: string; paise: number
 function CheckoutContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user, setShowAuthModal, loading: authLoading } = useUser();
+  const { user, refreshUser, setShowAuthModal, loading: authLoading } = useUser();
   const productKey = searchParams.get("p") || "bundle";
   const ref = searchParams.get("ref") || "";
 
@@ -50,6 +50,7 @@ function CheckoutContent() {
   const [message, setMessage] = useState("");
 
   const product = productsData[productKey] || productsData.bundle;
+  const hasPurchased = Boolean(user?.purchasedProducts?.some((key) => ["math", "english", "bundle"].includes(key)));
 
   useEffect(() => {
     if (user) {
@@ -67,6 +68,7 @@ function CheckoutContent() {
 
   async function startCheckout() {
     if (!user) { setShowAuthModal(true); return; }
+    if (hasPurchased) { router.push("/math"); return; }
     if (!email) { setError("Enter the email where you want your PDF delivered."); return; }
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -75,7 +77,25 @@ function CheckoutContent() {
       await fetch("/api/events", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "checkout_started", productKey, path: window.location.pathname }) });
       const orderResponse = await fetch("/api/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ productKey, email, referralCode }) });
       const order = await orderResponse.json();
-      if (!orderResponse.ok) { setError(order.error || "Checkout is unavailable."); return; }
+      if (!orderResponse.ok) {
+        if (orderResponse.status === 409 && order.alreadyPurchased) {
+          try {
+            await refreshUser();
+          } catch (refreshError) {
+            console.error("Purchased account refresh failed", refreshError);
+          }
+          router.push("/math");
+          return;
+        }
+        if (orderResponse.status === 401) {
+          const currentUser = await refreshUser();
+          if (!currentUser) setShowAuthModal(true);
+          setError("Your session expired. Please sign in again to continue.");
+          return;
+        }
+        setError(order.error || "Checkout is unavailable.");
+        return;
+      }
 
       if (!window.Razorpay) {
         const script = document.createElement("script");
@@ -85,6 +105,7 @@ function CheckoutContent() {
         document.body.appendChild(script);
       } else openCheckout(order);
     } catch (err) {
+      console.error("Checkout request failed", err);
       setError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -113,6 +134,11 @@ function CheckoutContent() {
         window.localStorage.setItem("pdfduniya-review-access-math", JSON.stringify(access));
         window.localStorage.setItem("pdfduniya-review-access-english", JSON.stringify(access));
 
+        try {
+          await refreshUser();
+        } catch (refreshError) {
+          console.error("Purchased account refresh failed", refreshError);
+        }
         setMessage("Payment successful! Please check your email for the PDFs.");
         await fetch("/api/events", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "checkout_completed", productKey, path: window.location.pathname }) });
 
@@ -163,7 +189,7 @@ function CheckoutContent() {
                   <h3 style={{ fontSize: "1.1rem", marginBottom: "20px", color: "var(--ink)" }}>What&apos;s included in this bundle:</h3>
                   <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                     <li style={{ display: "flex", gap: "12px", marginBottom: "15px", color: "var(--ink)", fontWeight: "500" }}>
-                      <span style={{ color: "var(--lime)" }}>✓</span> SpeedMath Calculation Guide (68 Pages)
+                      <span style={{ color: "var(--lime)" }}>✓</span> Math Magic Guide with 11 practical sections
                     </li>
                     <li style={{ display: "flex", gap: "12px", marginBottom: "15px", color: "var(--ink)", fontWeight: "500" }}>
                       <span style={{ color: "var(--lime)" }}>✓</span> English Speaking Handbook (74 Pages)
@@ -218,8 +244,9 @@ function CheckoutContent() {
                     </div>
 
                     <button className="button button-primary" style={{ width: "100%", marginTop: "20px", height: "60px", fontSize: "1.1rem", borderRadius: "12px" }} onClick={startCheckout} disabled={isSubmitting}>
-                      {isSubmitting ? "Redirecting to Payment..." : `Pay ₹29 & Get Both PDFs →`}
+                      {isSubmitting ? "Redirecting to Payment..." : hasPurchased ? "Already purchased — View PDFs →" : `Pay ₹29 & Get Both PDFs →`}
                     </button>
+                    {hasPurchased && <p className="form-success" style={{ marginTop: "15px" }}>Your purchase is linked to this account. Open the Math page to view your purchased guides.</p>}
 
                     {error && <p className="form-error" style={{ background: "rgba(255,141,168,0.1)", padding: "12px", borderRadius: "8px", marginTop: "20px" }}>{error}</p>}
                     {message && <p className="form-success" style={{ background: "rgba(217,255,112,0.1)", padding: "12px", borderRadius: "8px", marginTop: "20px" }}>{message}</p>}

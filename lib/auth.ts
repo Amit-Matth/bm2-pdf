@@ -1,4 +1,4 @@
-import { createHmac, timingSafeEqual } from "node:crypto";
+import { createHmac } from "node:crypto";
 import { cookies } from "next/headers";
 
 const AUTH_COOKIE = "pdfduniya_session";
@@ -43,7 +43,9 @@ export async function getSession(): Promise<UserSession | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get(AUTH_COOKIE)?.value;
   if (!token) return null;
-  return verifyToken(token);
+  const session = verifyToken(token);
+  if (!session) cookieStore.delete(AUTH_COOKIE);
+  return session;
 }
 
 export async function setSession(user: Omit<UserSession, "iat">) {

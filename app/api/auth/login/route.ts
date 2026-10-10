@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import getMongoClient from "@/lib/mongodb";
 import { setSession } from "@/lib/auth";
+import { getUserProfile } from "@/lib/user-profile";
 
 export async function POST(request: Request) {
   try {
-    const { email, username } = await request.json();
+    const body = await request.json();
+    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const username = typeof body.username === "string" ? body.username.trim() : "";
 
-    if (!email || !username) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !username) {
       return NextResponse.json({ error: "Email and Username are required." }, { status: 400 });
     }
 
@@ -16,9 +19,8 @@ export async function POST(request: Request) {
     const client = await getMongoClient();
     const db = client.db(databaseName);
 
-    // Update or create user
     await db.collection("users").updateOne(
-      { email: email.toLowerCase() },
+      { email },
       {
         $set: {
           username,
@@ -32,21 +34,13 @@ export async function POST(request: Request) {
       { upsert: true }
     );
 
-    await setSession({ email: email.toLowerCase(), username });
-
-    // Check if user already has a referral code
-    const referral = await db.collection("referral_codes").findOne({
-      referrerEmail: email.toLowerCase()
-    });
+    const user = await getUserProfile(email, username);
+    await setSession({ email, username });
 
     return NextResponse.json({
       success: true,
-      user: {
-        email,
-        username,
-        referralCode: referral?.code || null
-      }
-    });
+      user,
+    }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
     console.error("Login failed", error);
     return NextResponse.json({ error: "Authentication failed." }, { status: 500 });

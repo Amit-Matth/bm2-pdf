@@ -18,8 +18,8 @@ export default function AuthModal() {
     setError("");
     try {
       await login(email, username);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -34,9 +34,9 @@ export default function AuthModal() {
 
         <div className="auth-header">
           <p className="eyebrow" style={{ color: "var(--lime)" }}>Welcome to pdfDuniya</p>
-          <h2 style={{ fontSize: "clamp(1.8rem, 5vw, 2.4rem)", fontWeight: "800", letterSpacing: "-0.04em" }}>Join the community</h2>
+          <h2 style={{ fontSize: "clamp(1.8rem, 5vw, 2.4rem)", fontWeight: "800", letterSpacing: "-0.04em" }}>Welcome back</h2>
           <p className="auth-subtitle" style={{ maxWidth: "300px", margin: "0 auto", fontSize: "0.9rem", color: "var(--muted)" }}>
-            Sign in to buy PDFs, leave reviews, and track <span style={{ color: "var(--ink)" }}>referrals</span>.
+            Use the same email as your purchase to restore your PDFs, reviews, and <span style={{ color: "var(--ink)" }}>referral</span> details.
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export default function AuthModal() {
               style={{ background: "rgba(0,0,0,0.2)" }}
             />
             <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "8px" }}>
-              We'll send your purchased PDFs to this email.
+              Your previous purchases are restored using this email.
             </p>
           </div>
 

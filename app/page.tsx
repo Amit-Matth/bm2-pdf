@@ -25,54 +25,58 @@ export default function Home() {
   const preview = isMathPreview
     ? {
         title: "Math Magic: Master Mental Math",
-        description: "A 35-page practical guide packed with 59 mental math techniques and calculation moves, organized into 9 comprehensive sections.",
-        pages: "35 PAGES",
+        description: "Learn 45 mental-math tricks and methods across 11 sections, plus 11 divisibility rules, 3 fast-calculation shortcuts, and 4 time-saving approaches. Each method explains the idea, when to use it, and how it works with step-by-step examples.",
+        pages: "65 PAGES",
         table: [
-          { section: "Square & Square Root Tricks", count: "10 techniques" },
-          { section: "Cube & Cube Root Tricks", count: "4 techniques" },
-          { section: "Rebuild Any Table You Forget", count: "4 methods" },
-          { section: "Quick Calculation Shortcuts", count: "10 methods" },
-          { section: "Percentage & Fraction Tricks", count: "6 techniques" },
-          { section: "Profit, Loss & Interest Tricks", count: "8 techniques" },
-          { section: "Divisibility Tricks", count: "8 techniques" },
-          { section: "Fast Calculation Tricks", count: "6 techniques" },
-          { section: "Math Magic Tricks", count: "3 magic tricks" },
+          { section: "Multiplication Tricks", contents: "6 tricks" },
+          { section: "Division Tricks", contents: "4 tricks" },
+          { section: "Percentage & Fraction Tricks", contents: "9 tricks" },
+          { section: "Ultimate Formula Shortcuts", contents: "6 tricks" },
+          { section: "Divisibility Rules", contents: "11 rules" },
+          { section: "Fast Calculation Shortcuts", contents: "3 shortcuts" },
+          { section: "Time-Saving Approaches", contents: "4 approaches" },
+          { section: "Square & Square Root Tricks", contents: "7 tricks" },
+          { section: "Cube & Cube Root Tricks", contents: "4 tricks" },
+          { section: "Table Tricks", contents: "3 methods" },
+          { section: "Math Magic Tricks", contents: "6 tricks" },
         ],
         learn: [
-          { title: "Square & Square Root Tricks", text: "Learn faster ways to work with squares and square roots using useful number patterns." },
-          { title: "Cube & Cube Root Tricks", text: "Handle cubes and cube roots with simple patterns around familiar numbers." },
-          { title: "Rebuild Any Table You Forget", text: "Learn practical ways to rebuild multiplication tables instead of memorizing everything." },
-          { title: "Quick Calculation Shortcuts", text: "Use shortcuts for numbers like 5, 9, 11, 25, 50, 125 and more." },
-          { title: "Percentage & Fraction Tricks", text: "Calculate percentages, equivalents, and handle successive percentage changes." },
-          { title: "Profit, Loss & Interest Tricks", text: "Work with selling price, discounts, simple interest, and compound growth." },
-          { title: "Divisibility Tricks", text: "Quickly check whether numbers are divisible using simple digit patterns." },
-          { title: "Fast Calculation Tricks", text: "Use rounding, compensation, and estimation to make everyday calculations faster." },
-          { title: "Math Magic Tricks", text: "Perform number tricks that create surprising results while you know how they work." },
+          { title: "Multiplication Tricks", text: "Use the Base Jump, smart factors, the Half-Double Hack, and shortcuts for multiplying by 9 or 101." },
+          { title: "Division Tricks", text: "Turn divisors into powers of 10, factor them first, use known multiples of 11, or halve repeatedly." },
+          { title: "Percentage & Fraction Tricks", text: "Build percentages from easy values, reverse a percentage, compare fractions, and simplify before multiplying." },
+          { title: "Ultimate Formula Shortcuts", text: "Work through profit-and-loss cases, false weights, markups, successive discounts, and the Rule of 72." },
+          { title: "Divisibility Rules", text: "Use quick rules to check whether numbers divide evenly." },
+          { title: "Fast Calculation Shortcuts", text: "Make common calculations quicker with practical mental-math shortcuts." },
+          { title: "Time-Saving Approaches", text: "Look for a simpler route before working through a calculation the long way." },
+          { title: "Square & Square Root Tricks", text: "Square numbers near a base or ending in 5, and estimate square roots between known squares." },
+          { title: "Cube & Cube Root Tricks", text: "Use nearby bases, ending-in-5 patterns, and last-digit clues for cube roots." },
+          { title: "Table Tricks", text: "Build harder multiplication tables from easier ones and reconstruct a forgotten table." },
+          { title: "Math Magic Tricks", text: "Explore number predictions and the 1089, 1001, and 6174 tricks." },
         ],
         includes: [
-          "Simple step-by-step instructions",
-          "Clear worked examples",
-          "Useful formulas or patterns",
-          "Practice examples where useful"
+          "The idea behind each trick",
+          "When to use each method",
+          "Step-by-step worked examples",
+          "Clear calculations and results"
         ],
         modules: [], // Legacy
         contents: [], // Legacy
       }
     : {
         title: "English Speaking Without Freezing",
-        description: "A practical guide built around real speaking problems, with 70+ techniques, corrections, and tools to help you speak with less hesitation.",
+        description: "A 13-page speaking guide with 70+ practical fixes, natural phrases, and conversation tools for everyday situations, interviews, and calls.",
         pages: "13 PAGES",
         table: [
-          { section: "Identify Your Problem", count: "7 common problems" },
-          { section: "Think in English", count: "4 techniques" },
-          { section: "Speak Without Getting Stuck", count: "4 techniques" },
-          { section: "Sound Natural & Confident", count: "5 techniques" },
-          { section: "Grammar Mistakes to Fix", count: "12 common fixes" },
-          { section: "Redundant Phrases to Drop", count: "13 corrections" },
-          { section: "Formal Phrases to Fix", count: "11 alternatives" },
-          { section: "Everyday Sentence Upgrades", count: "16 useful upgrades" },
-          { section: "Secret Techniques (Interviews)", count: "6 techniques" },
-          { section: "Mindset: Practice & Life", count: "Habit building" },
+          { section: "Identify Your Problem", contents: "7 common problems" },
+          { section: "Think in English", contents: "4 techniques" },
+          { section: "Speak Without Getting Stuck", contents: "4 techniques" },
+          { section: "Sound Natural & Confident", contents: "5 techniques" },
+          { section: "Grammar Mistakes to Fix", contents: "12 common fixes" },
+          { section: "Redundant Phrases to Drop", contents: "13 corrections" },
+          { section: "Formal Phrases to Fix", contents: "12 alternatives" },
+          { section: "Everyday Sentence Upgrades", contents: "15 useful upgrades" },
+          { section: "Secret Techniques (Interviews)", contents: "6 techniques" },
+          { section: "Mindset (Practice & Real Life)", contents: "Practice, self-correction & confidence" },
         ],
         learn: [
           { title: "Think in English", text: "Reduce mental translation and build simple thoughts directly in English." },
@@ -143,14 +147,14 @@ export default function Home() {
           </RevealBlock>
           <RevealBlock direction="left" delay={120}>
             <div className="preview-switcher" role="tablist" aria-label="PDF previews">
-              <button className={isMathPreview ? "is-selected" : ""} type="button" role="tab" aria-selected={isMathPreview} onClick={() => setSelectedPreview("math")}>&#9636; &nbsp; Math Magic (35 Pages)</button>
-              <button className={!isMathPreview ? "is-selected" : ""} type="button" role="tab" aria-selected={!isMathPreview} onClick={() => setSelectedPreview("english")}>&#10024; &nbsp; English Grammar (13 Pages)</button>
+              <button className={isMathPreview ? "is-selected" : ""} type="button" role="tab" aria-selected={isMathPreview} onClick={() => setSelectedPreview("math")}>&#9636; &nbsp; Math Magic (65 Pages)</button>
+              <button className={!isMathPreview ? "is-selected" : ""} type="button" role="tab" aria-selected={!isMathPreview} onClick={() => setSelectedPreview("english")}>&#10024; &nbsp; English Speaking (13 Pages)</button>
             </div>
           </RevealBlock>
           <RevealBlock direction="right" delay={220}>
             <div className="pdf-preview" key={preview.title}>
               <div className="preview-details">
-                <div className="preview-kicker">{preview.pages} PRACTICAL GUIDE <span>{isMathPreview ? '59 mental math techniques' : '70+ Speaking techniques'}</span></div>
+                <div className="preview-kicker">{preview.pages} PRACTICAL GUIDE <span>{isMathPreview ? "45 tricks & methods" : "70+ practical speaking tools"}</span></div>
                 <h3 id="preview-title" style={{ marginTop: '15px' }}>{isMathPreview ? '⚡ What You\'ll Learn' : '🗣️ What You\'ll Learn'}</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginTop: '25px' }}>
                   {preview.learn.map(item => (
@@ -187,14 +191,14 @@ export default function Home() {
                     {preview.table.map((row, idx) => (
                       <tr key={row.section} style={{ borderBottom: idx === preview.table.length - 1 ? 'none' : '1px solid rgba(255,255,255,0.05)' }}>
                         <td style={{ padding: '15px 0', color: '#e0e0e6', fontWeight: '500' }}>{row.section}</td>
-                        <td style={{ padding: '15px 0', textAlign: 'right', color: isMathPreview ? 'rgba(217, 255, 112, 0.8)' : 'rgba(250, 46, 140, 0.8)', fontWeight: '600' }}>{row.count}</td>
+                        <td style={{ padding: '15px 0', textAlign: 'right', color: isMathPreview ? 'rgba(217, 255, 112, 0.8)' : 'rgba(250, 46, 140, 0.8)', fontWeight: '600' }}>{row.contents}</td>
                       </tr>
                     ))}
                   </tbody>
                   <tfoot>
                     <tr style={{ borderTop: '2px solid var(--line)' }}>
                       <td style={{ padding: '20px 0 0', fontWeight: '800', fontSize: '0.9rem', color: '#fff' }}>TOTAL</td>
-                      <td style={{ padding: '20px 0 0', textAlign: 'right', fontWeight: '800', color: isMathPreview ? 'var(--lime)' : 'var(--pink)', fontSize: '0.9rem' }}>{isMathPreview ? '59 TECHNIQUES' : '70+ TOOLS'}</td>
+                      <td style={{ padding: '20px 0 0', textAlign: 'right', fontWeight: '800', color: isMathPreview ? 'var(--lime)' : 'var(--pink)', fontSize: '0.9rem' }}>{isMathPreview ? '45 TRICKS & METHODS' : '70+ TOOLS'}</td>
                     </tr>
                   </tfoot>
                 </table>

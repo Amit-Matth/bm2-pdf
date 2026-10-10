@@ -19,11 +19,11 @@ export default function EnglishPage() {
         key: "english",
         title: "English Speaking Without Freezing",
         eyebrow: "English speaking guide · 13 pages",
-        description: "A practical guide built around real speaking problems, with 70+ practical techniques, corrections, phrases, and speaking tools to help you speak with less hesitation.",
+        description: "A 13-page speaking guide with 70+ practical fixes, natural phrases, and conversation tools for everyday situations, interviews, and calls.",
         price: "₹29",
         originalPrice: "₹99",
         badge: "71% OFF",
-        features: ["Think in English methods", "70+ Natural Speaking Tools", "Professional Interview Tips", "Real-world Speaking Habits"],
+        features: ["4 Think-in-English fixes", "12 grammar corrections & 13 phrase fixes", "15 natural sentence upgrades", "6 interview and call techniques"],
         file: "Speak%20English.pdf"
       }]} />
     </ContentPage>
