@@ -18,7 +18,7 @@ export default function ContentPage({ title, intro, children, sidebar, pageClass
       <main className="inner-page">
         <RevealBlock direction="bottom">
           <div className="inner-page-heading">
-            <p className="eyebrow">pdfDuniya / information</p>
+            <p className="eyebrow">BM2 PDF / information</p>
             <h1>{title}</h1>
             <p>{intro}</p>
             {sidebar && (

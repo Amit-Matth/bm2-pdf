@@ -22,7 +22,7 @@ export default function ReferralPage() {
 
   useEffect(() => {
     // Check if the user has already applied on this device
-    const applied = localStorage.getItem("pdfduniya-referral-applied");
+    const applied = localStorage.getItem("bm2pdf-referral-applied");
     if (applied) {
       setHasApplied(true);
       setFormData(JSON.parse(applied));
@@ -59,7 +59,7 @@ export default function ReferralPage() {
       } else {
         setMessage(data.message);
         setHasApplied(true);
-        localStorage.setItem("pdfduniya-referral-applied", JSON.stringify(formData));
+        localStorage.setItem("bm2pdf-referral-applied", JSON.stringify(formData));
       }
     } catch (err) {
       setError("Network error. Please try again.");
@@ -82,7 +82,7 @@ export default function ReferralPage() {
               <RevealBlock direction="left">
                 <p className="eyebrow">Affiliate Partnership</p>
                 <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", lineHeight: "0.9", marginBottom: "25px" }}>
-                  Grow with <br /><span>pdfDuniya.</span>
+                  Grow with <br /><span>BM2 PDF.</span>
                 </h1>
                 <p style={{ fontSize: "1.1rem", color: "var(--muted)", lineHeight: "1.6", maxWidth: "500px" }}>
                   Join our creator partnership program. Promote high-demand SpeedMath & English guides and earn continuous revenue for every sale.
@@ -239,7 +239,7 @@ export default function ReferralPage() {
       <footer className="footer-wrap" style={{ marginTop: "0" }}>
         <div className="site-footer" style={{ borderTop: "1px solid var(--line)" }}>
           <div className="footer-brand">
-            <p style={{ color: "var(--muted)", fontSize: "0.9rem" }}>© 2026 pdfDuniya Partnership Program</p>
+            <p style={{ color: "var(--muted)", fontSize: "0.9rem" }}>© 2026 BM2 PDF Partnership Program</p>
           </div>
           <div className="footer-links">
             <Link href="/" style={{ fontSize: "0.8rem" }}>Back to Store</Link>

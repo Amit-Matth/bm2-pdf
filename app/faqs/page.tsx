@@ -9,7 +9,7 @@ const questions: Array<[string, string]> = [
   ["Are these PDFs for beginners?", "Yes. Each guide starts with approachable explanations and builds toward practical, everyday use."],
   ["What if I lose my download link?", "No worries! Since you have an account, your purchase is recorded. Just contact us with your order ID and we'll resend your links immediately."],
   ["Can I get a refund?", "Because our products are digital downloads, refunds are handled case by case. Please contact us within 7 days if there is a genuine issue."],
-  ["How can I contact pdfDuniya?", "Email us at amitmatth121@gmail.com and our small team will get back to you as soon as possible."],
+  ["How can I contact BM2 PDF?", "Email us at amitmatth121@gmail.com and our small team will get back to you as soon as possible."],
 ];
 
 export default function Faqs() {

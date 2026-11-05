@@ -213,13 +213,13 @@ export default function Home() {
 
         <section className="section about-section" id="about" aria-labelledby="about-title">
           <RevealBlock direction="left">
-            <div className="about-logo"><Image src="/logo.png" alt="pdfDuniya logo" width={480} height={480} /></div>
+            <div className="about-logo"><Image src="/logo.png" alt="BM2 PDF logo" width={480} height={480} /></div>
           </RevealBlock>
           <RevealBlock direction="right" delay={100}>
             <div className="about-copy">
               <p className="eyebrow">A little about us</p>
               <h2 id="about-title">Useful knowledge,<br /><em>beautifully simple.</em></h2>
-              <p>pdfDuniya creates focused digital guides for learners who want practical results without the noise. We turn everyday goals into friendly, step-by-step PDFs you can open anywhere.</p>
+              <p>BM2 PDF creates focused digital guides for learners who want practical results without the noise. We turn everyday goals into friendly, step-by-step PDFs you can open anywhere.</p>
               <p>Whether you are brushing up on maths or finding your voice in English, start with one page and keep going.</p>
               <Link className="text-link" href="/about-us">Read About Us <span aria-hidden="true">&#8594;</span></Link>
             </div>
@@ -259,7 +259,7 @@ export default function Home() {
 
       </main>
 
-      <footer className="footer-wrap"><div className="site-footer"><div className="footer-brand"><Image src="/header-logo.png" alt="pdfDuniya" width={180} height={48} /><p>Make maths faster. Speak <span>English with confidence.</span></p></div><div className="footer-links"><div><strong>Explore</strong><Link href="/#math">Math</Link><Link href="/#english">English</Link><Link href="/referral">Refer & Earn</Link><Link href="/about-us">About Us</Link><Link href="/contact-us">Contact Us</Link></div><div><strong>Policies</strong><Link href="/privacy-policy">Privacy Policy</Link><Link href="/refund-and-cancellation-policy">Refund and Cancellation Policy</Link><Link href="/terms-and-conditions">Terms &amp; Conditions</Link><Link href="/shipping-digital-delivery-policy">Shipping (Digital Delivery) Policy</Link></div></div><div className="footer-contact"><strong>Get in Touch</strong><div className="support-card"><span>SUPPORT EMAIL:</span><a href="mailto:amitmath12l@gmail.com">amitmath12l@gmail.com</a></div><p className="checkout-note"><span aria-hidden="true">&#10003;</span> 100% Encrypted Razorpay Checkout</p></div></div><div className="bottom-footer"><span>© 2026 pdfDuniya. All Rights Reserved.</span><span>Developed by &quot;Amit Matth&quot;</span></div></footer>
+      <footer className="footer-wrap"><div className="site-footer"><div className="footer-brand"><Image src="/header-logo.png" alt="BM2 PDF" width={180} height={48} /><p>Make maths faster. Speak <span>English with confidence.</span></p></div><div className="footer-links"><div><strong>Explore</strong><Link href="/#math">Math</Link><Link href="/#english">English</Link><Link href="/referral">Refer & Earn</Link><Link href="/about-us">About Us</Link><Link href="/contact-us">Contact Us</Link></div><div><strong>Policies</strong><Link href="/privacy-policy">Privacy Policy</Link><Link href="/refund-and-cancellation-policy">Refund and Cancellation Policy</Link><Link href="/terms-and-conditions">Terms &amp; Conditions</Link><Link href="/shipping-digital-delivery-policy">Shipping (Digital Delivery) Policy</Link></div></div><div className="footer-contact"><strong>Get in Touch</strong><div className="support-card"><span>SUPPORT EMAIL:</span><a href="mailto:amitmath12l@gmail.com">amitmath12l@gmail.com</a></div><p className="checkout-note"><span aria-hidden="true">&#10003;</span> 100% Encrypted Razorpay Checkout</p></div></div><div className="bottom-footer"><span>© 2026 BM2 PDF. All Rights Reserved.</span><span>Developed by &quot;Amit Matth&quot;</span></div></footer>
     </div>
   );
 }

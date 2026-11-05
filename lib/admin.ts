@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 
-const cookieName = "pdfduniya_admin";
+const cookieName = "bm2pdf_admin";
 
 export function getAdminCookieName() {
   return cookieName;
@@ -9,7 +9,7 @@ export function getAdminCookieName() {
 export function createAdminToken() {
   const password = process.env.ADMIN_PASSWORD;
   if (!password) throw new Error("Missing ADMIN_PASSWORD environment variable");
-  return createHmac("sha256", password).update("pdfduniya-admin").digest("hex");
+  return createHmac("sha256", password).update("bm2pdf-admin").digest("hex");
 }
 
 export function isAdminTokenValid(token: string | undefined) {

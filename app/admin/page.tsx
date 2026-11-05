@@ -130,14 +130,14 @@ export default function AdminPage() {
       `}</style>
     </main>
   );
-  if (!data) return <main className="admin-shell"><div className="admin-login"><p className="eyebrow">pdfDuniya / private</p><h1>Admin portal</h1><p>Referral moderation and checkout activity.</p><form onSubmit={login}><div className="form-row"><label htmlFor="admin-password">Password</label><input id="admin-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required /></div><button className="button button-primary form-submit" type="submit">Enter portal</button>{error && <p className="form-error">{error}</p>}</form></div></main>;
+  if (!data) return <main className="admin-shell"><div className="admin-login"><p className="eyebrow">BM2 PDF / private</p><h1>Admin portal</h1><p>Referral moderation and checkout activity.</p><form onSubmit={login}><div className="form-row"><label htmlFor="admin-password">Password</label><input id="admin-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} required /></div><button className="button button-primary form-submit" type="submit">Enter portal</button>{error && <p className="form-error">{error}</p>}</form></div></main>;
 
   const metric = (items: Array<{ _id: string; count: number }>, key: string) => items.find((item) => item._id === key)?.count || 0;
   return (
     <main className="admin-shell">
       <div className="admin-header">
         <div>
-          <p className="eyebrow">pdfDuniya / private</p>
+          <p className="eyebrow">BM2 PDF / private</p>
           <h1>Admin portal</h1>
         </div>
         <button className="admin-refresh" type="button" onClick={() => void loadData()} disabled={isRefreshing}>

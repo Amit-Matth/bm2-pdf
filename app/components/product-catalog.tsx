@@ -38,7 +38,7 @@ function ProductCatalogContent({ products }: ProductCatalogProps) {
     if (typeof window === "undefined") return;
     const access: Record<string, boolean> = {};
     products.forEach((p) => {
-      const stored = window.localStorage.getItem(`pdfduniya-review-access-${p.key}`);
+      const stored = window.localStorage.getItem(`bm2pdf-review-access-${p.key}`);
       const isPurchased = stored || user?.purchasedProducts?.includes(p.key) || user?.purchasedProducts?.includes("bundle");
       if (isPurchased) access[p.key] = true;
     });

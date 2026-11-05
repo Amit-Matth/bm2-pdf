@@ -1,19 +1,19 @@
-# pdfDuniya
+# BM2 PDF
 
-## Payments and admin portal
+BM2 PDF is a digital learning platform built with a simple idea: learning should be useful, simple, and affordable. We create practical PDF guides focused on real skills, from solving mental math in seconds to mastering English speaking with confidence.
 
-Set these server environment variables before enabling paid checkout:
+## What's Included
 
-```env
-MONGODB_URI=...
-MONGODB_DB_NAME=...
-RAZORPAY_KEY_ID=...
-RAZORPAY_KEY_SECRET=...
-ADMIN_PASSWORD=...
-REVIEW_TOKEN_SECRET=...
-RESEND_API_KEY=...
-RESEND_FROM_EMAIL=pdfDuniya <orders@your-verified-domain.com>
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
+- **SpeedMath: Calculate Faster**: Master mental-math shortcuts, multiplication base jumps, divisibility rules, percentage tricks, and number magic across 11 practical sections.
+- **Think in English & Speak Fluently**: A practical handbook with fluency fixes, natural phrases, and conversation tools for everyday situations and interviews.
 
-The private moderation portal is available at `/admin`. Successful Razorpay payments are stored as paid orders, and only those orders receive a signed review token. Reviews remain hidden until approved in the portal. Visits, checkout starts, cancellations, and completed checkouts are recorded in MongoDB for the dashboard metrics. After payment verification, Resend emails the purchased PDF link to the delivery email and records the delivery status on the order.
+## Features
+
+- **Instant Digital Delivery**: Automated PDF delivery straight to your email upon purchase.
+- **Secure Payments**: 100% encrypted checkout powered by Razorpay.
+- **Creator Partnership Program**: Built-in referral and affiliate program for content creators.
+- **Learner Reviews**: Verified purchaser reviews and feedback system.
+
+## Developed By
+
+- **Author**: Amit Matth ([LinkedIn](https://www.linkedin.com/in/amit-kumar101/))

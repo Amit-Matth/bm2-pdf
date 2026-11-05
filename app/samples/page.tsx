@@ -71,7 +71,7 @@ export default function SamplesPage() {
     if (typeof window === "undefined") return;
     const access: Record<string, boolean> = {};
     ["math", "english"].forEach((key) => {
-      const stored = window.localStorage.getItem(`pdfduniya-review-access-${key}`);
+      const stored = window.localStorage.getItem(`bm2pdf-review-access-${key}`);
       const isPurchased = Boolean(
         stored ||
         user?.purchasedProducts?.includes(key) ||
@@ -92,7 +92,7 @@ export default function SamplesPage() {
           {/* Hero Section */}
           <RevealBlock direction="bottom">
             <div style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto 60px" }}>
-              <p className="eyebrow" style={{ color: "var(--lime)" }}>pdfDuniya / Free Previews</p>
+              <p className="eyebrow" style={{ color: "var(--lime)" }}>BM2 PDF / Free Previews</p>
               <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 4.2rem)", lineHeight: "1", marginBottom: "20px" }}>
                 Free <span>Book Samples</span>
               </h1>

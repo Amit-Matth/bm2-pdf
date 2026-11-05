@@ -1,8 +1,8 @@
 import { createHmac } from "node:crypto";
 import { cookies } from "next/headers";
 
-const AUTH_COOKIE = "pdfduniya_session";
-const JWT_SECRET = process.env.JWT_SECRET || process.env.ADMIN_PASSWORD || "pdfduniya-default-secret-very-long";
+const AUTH_COOKIE = "bm2pdf_session";
+const JWT_SECRET = process.env.JWT_SECRET || process.env.ADMIN_PASSWORD || "bm2pdf-default-secret-very-long";
 
 export type UserSession = {
   email: string;

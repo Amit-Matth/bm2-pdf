@@ -6,7 +6,7 @@ export default function SiteFooter() {
     <footer className="footer-wrap">
       <div className="site-footer">
         <div className="footer-brand">
-          <Image src="/header-logo.png" alt="pdfDuniya" width={180} height={48} />
+          <Image src="/header-logo.png" alt="BM2 PDF" width={180} height={48} />
           <p>Make maths faster. Speak <span>English with confidence.</span></p>
         </div>
         <div className="footer-links">
@@ -36,7 +36,7 @@ export default function SiteFooter() {
         </div>
       </div>
       <div className="bottom-footer">
-        <span>© 2026 pdfDuniya. All Rights Reserved.</span>
+        <span>© 2026 BM2 PDF. All Rights Reserved.</span>
         <span>Developed by &quot;Amit Matth&quot;</span>
       </div>
     </footer>

@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import getMongoClient from "@/lib/mongodb";
 
 const allowedEvents = new Set(["visit", "checkout_started", "checkout_cancelled", "checkout_completed", "referral_click"]);
-const visitorCookieName = "pdfduniya_visitor";
+const visitorCookieName = "bm2pdf_visitor";
 const sessionWindowMs = 30 * 60 * 1000;
 
 export async function POST(request: Request) {

@@ -38,7 +38,7 @@ export async function sendPurchaseEmail({ to, productTitle, productFile, orderId
   const info = await transporter.sendMail({
     from,
     to,
-    subject: `Your pdfDuniya PDF: ${productTitle}`,
+    subject: `Your BM2 PDF: ${productTitle}`,
     html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#171323"><h2>Your PDFs are ready</h2><p>Thank you for purchasing <strong>${productTitle}</strong>.</p><p>Your PDF(s) are attached to this email.</p><p>Order ID: ${orderId}</p><p>You can return to the product page to submit a review after your purchase.</p></div>`,
     attachments,
   });
@@ -71,11 +71,11 @@ export async function sendReferralApprovalEmail({ to, name, referralCode }: { to
   const info = await transporter.sendMail({
     from,
     to,
-    subject: "Update regarding your pdfDuniya Referral Program status",
+    subject: "Update regarding your BM2 PDF Referral Program status",
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.6;color:#171323">
         <h2>Congratulations ${name}!</h2>
-        <p>Your request for the pdfDuniya Referral Program has been approved.</p>
+        <p>Your request for the BM2 PDF Referral Program has been approved.</p>
         <p>Your unique referral code is: <strong>${referralCode}</strong></p>
         <p>Share this link to start earning:</p>
         <p><a href="${referralLink}" style="color:#fa2e8c;font-weight:bold">${referralLink}</a></p>
@@ -110,15 +110,15 @@ export async function sendReferralRemovalEmail({ to, name }: { to: string; name:
   const info = await transporter.sendMail({
     from,
     to,
-    subject: "Update regarding your pdfDuniya Referral Program status",
+    subject: "Update regarding your BM2 PDF Referral Program status",
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.6;color:#171323">
         <h2>Hello ${name},</h2>
-        <p>This is to inform you that your participation in the pdfDuniya Referral Program has been terminated, and your referral code has been deactivated.</p>
+        <p>This is to inform you that your participation in the BM2 PDF Referral Program has been terminated, and your referral code has been deactivated.</p>
         <p>If you have any questions regarding this decision, you can contact our support team.</p>
         <br>
         <p>Thank you,</p>
-        <p>The pdfDuniya Team</p>
+        <p>The BM2 PDF Team</p>
       </div>`,
   });
 

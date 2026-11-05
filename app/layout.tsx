@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "pdfDuniya | Learn something useful every day",
+  title: "BM2 PDF | Learn something useful every day",
   description: "Practical PDF guides to solve BasicMath in seconds and master English speaking on your fingertips.",
 };
 

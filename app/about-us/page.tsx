@@ -8,7 +8,7 @@ export default function AboutUs() {
     >
       <h2>Our Mission</h2>
       <p>
-        <strong>pdfDuniya</strong> is a digital learning platform built with a simple idea: learning should be useful, simple, and affordable.
+        <strong>BM2 PDF</strong> is a digital learning platform built with a simple idea: learning should be useful, simple, and affordable.
       </p>
       <p>
         We create practical PDF guides focused on real skills, from improving English communication to learning faster
@@ -19,7 +19,7 @@ export default function AboutUs() {
         <strong>learn something useful, understand it clearly, and actually use it.</strong>
       </p>
       <p>
-        We&apos;re building pdfDuniya one useful guide at a time, with the hope of creating a place where anyone can find
+        We&apos;re building BM2 PDF one useful guide at a time, with the hope of creating a place where anyone can find
         affordable resources to improve their skills.
       </p>
       <p>
@@ -32,7 +32,7 @@ export default function AboutUs() {
         I&apos;m a <strong>self-taught developer</strong> who enjoys building useful things and learning by creating.
       </p>
       <p>
-        <strong>pdfDuniya is directed and built by me</strong>, with the goal of turning the things I learn and the ideas
+        <strong>BM2 PDF is directed and built by me</strong>, with the goal of turning the things I learn and the ideas
         I find useful into simple, affordable resources for others.
       </p>
       <p>
@@ -40,7 +40,7 @@ export default function AboutUs() {
         Sometimes, a well-made guide that explains things clearly is enough to get started.
       </p>
       <p>
-        Through pdfDuniya, I want to build a collection of practical digital guides that people can use to improve their
+        Through BM2 PDF, I want to build a collection of practical digital guides that people can use to improve their
         skills at their own pace.
       </p>
 

@@ -10,7 +10,7 @@ export default function AnalyticsTracker() {
     if (window.location.pathname.startsWith("/admin")) return;
 
     // Track page visit
-    const visitKey = `pdfduniya_visit:${window.location.pathname}`;
+    const visitKey = `bm2pdf_visit:${window.location.pathname}`;
     const previousVisit = sessionStorage.getItem(visitKey);
     if (!previousVisit || Date.now() - Number(previousVisit) > 30 * 60 * 1000) {
       sessionStorage.setItem(visitKey, String(Date.now()));

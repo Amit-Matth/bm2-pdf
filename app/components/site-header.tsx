@@ -19,8 +19,8 @@ export default function SiteHeader() {
 
   return (
     <header className="site-header">
-      <Link href="/" className="header-logo" aria-label="pdfDuniya home">
-        <Image src="/header-logo.png" alt="pdfDuniya" width={270} height={72} priority />
+      <Link href="/" className="header-logo" aria-label="BM2 PDF home">
+        <Image src="/header-logo.png" alt="BM2 PDF" width={270} height={72} priority />
       </Link>
       <nav className="main-nav" aria-label="Main navigation">
         {links.map((link) => (

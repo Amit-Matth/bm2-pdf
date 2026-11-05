@@ -33,7 +33,7 @@ export default function AuthModal() {
         </button>
 
         <div className="auth-header">
-          <p className="eyebrow" style={{ color: "var(--lime)" }}>Welcome to pdfDuniya</p>
+          <p className="eyebrow" style={{ color: "var(--lime)" }}>Welcome to BM2 PDF</p>
           <h2 style={{ fontSize: "clamp(1.8rem, 5vw, 2.4rem)", fontWeight: "800", letterSpacing: "-0.04em" }}>Welcome back</h2>
           <p className="auth-subtitle" style={{ maxWidth: "300px", margin: "0 auto", fontSize: "0.9rem", color: "var(--muted)" }}>
             Use the same email as your purchase to restore your PDFs, reviews, and <span style={{ color: "var(--ink)" }}>referral</span> details.

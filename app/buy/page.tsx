@@ -120,7 +120,7 @@ function CheckoutContent() {
       key: order.keyId,
       amount: order.amount,
       currency: "INR",
-      name: "pdfDuniya",
+      name: "BM2 PDF",
       description: order.productTitle,
       order_id: order.orderId,
       prefill: { email },
@@ -131,8 +131,8 @@ function CheckoutContent() {
         if (!response.ok) { setError(data.error || "Payment verification failed."); return; }
 
         const access = { orderId: result.razorpay_order_id, token: data.reviewToken, email: email.trim().toLowerCase() };
-        window.localStorage.setItem("pdfduniya-review-access-math", JSON.stringify(access));
-        window.localStorage.setItem("pdfduniya-review-access-english", JSON.stringify(access));
+        window.localStorage.setItem("bm2pdf-review-access-math", JSON.stringify(access));
+        window.localStorage.setItem("bm2pdf-review-access-english", JSON.stringify(access));
 
         try {
           await refreshUser();

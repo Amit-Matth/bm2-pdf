@@ -31,7 +31,7 @@ export default function ApprovedReviews() {
       <RevealBlock direction="bottom">
         <div className="section-heading">
           <div><p className="eyebrow">Verified purchasers</p><h2 id="approved-reviews-title">What learners<br /><em>are saying.</em></h2></div>
-          <p>Reviews from customers whose purchases have been verified and approved by pdfDuniya.</p>
+          <p>Reviews from customers whose purchases have been verified and approved by BM2 PDF.</p>
         </div>
       </RevealBlock>
       <div className="public-review-grid">
